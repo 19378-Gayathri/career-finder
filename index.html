@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course & Career Finder</title>
+    <style>
+        /* Classic Design Layout */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --background: #ecf0f1;
+            --text: #34495e;
+            --highlight: #f7f8f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        .section {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+            margin-bottom: 20px;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section.hidden {
+            display: none;
+        }
+
+        .button {
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .progress-bar {
+            background-color: #ddd;
+            height: 8px;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .progress-bar .progress {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            border-radius: 5px;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            justify-items: center;
+            margin-top: 20px;
+        }
+
+        .option {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .option:hover {
+            background-color: var(--highlight);
+            transform: scale(1.05);
+        }
+
+        .option.selected {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .slider-container {
+            margin-top: 20px;
+        }
+
+        .slider {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        footer p {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Image Styling */
+        .image {
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Course & Career Finder</h1>
+            <p>Find your ideal career based on your preferences and skills</p>
+        </header>
+
+        <!-- Intro Section -->
+        <div class="section" id="intro">
+            <img src="https://via.placeholder.com/600x300/3498db/ffffff?text=Career+Quiz" alt="Intro Image" class="image">
+            <h2>Welcome to Your Career Journey</h2>
+            <p>Take our quiz to discover your strengths and get personalized recommendations for courses and careers.</p>
+            <button class="button" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="section hidden" id="quiz">
+            <h2>Answer the Following Questions</h2>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <div class="question-container" id="question-container"></div>
+            <button class="button" onclick="nextQuestion()" id="next-btn">Next</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="section hidden" id="results">
+            <h2>Your Career Matches</h2>
+            <div id="results-container"></div>
+        </div>
+
+        <!-- About Section -->
+        <div class="section hidden" id="about">
+            <h2>About Us</h2>
+            <p>We help individuals find their perfect career path by analyzing personality traits and skills. Our recommendations are based on research and industry insights.</p>
+            <p>Contact us: <a href="mailto:coursefinder123@gmail.com">coursefinder123@gmail.com</a></p>
+        </div>
+
+        <footer>
+            <p>© 2025 Course & Career Finder. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const questions = [
+            { text: "How do you prefer to express your creativity?", type: "multiple", options: ["Through art and visual media", "Through scientific innovation", "Through social interaction", "Through business ventures", "Through practical problem-solving"], next: [1, 2, 3, 4, 5] },
+            { text: "Which environment do you work best in?", type: "multiple", options: ["Structured and organized", "Dynamic and changing", "Collaborative and team-based", "Independent and autonomous", "Creative and flexible"], next: [2, 1, 3, 4, 5] },
+            { text: "How comfortable are you with public speaking?", type: "slider", min: 1, max: 10, next: [4, 3, 5, 2, 1] },
+            { text: "Rate your problem-solving ability", type: "slider", min: 1, max: 10, next: [2, 3, 4, 1, 5] },
+            { text: "Do you prefer to work with data or people?", type: "multiple", options: ["Data", "People", "Both", "Neither"], next: [5, 4, 2, 3] },
+            { text: "Are you interested in working with technology?", type: "multiple", options: ["Yes", "No", "Not Sure"], next: [1, 2, 3] },
+            { text: "Do you like taking leadership roles?", type: "multiple", options: ["Yes", "No", "Sometimes"], next: [1, 3, 2] },
+            { text: "Would you prefer to work in a corporate setting or a startup?", type: "multiple", options: ["Corporate", "Startup", "Either"], next: [1, 2, 3] },
+            { text: "How do you feel about working remotely?", type: "multiple", options: ["I prefer remote work", "I prefer office work", "I am flexible"], next: [2, 1, 3] },
+            { text: "Would you enjoy a job that involves a lot of travel?", type: "multiple", options: ["Yes", "No", "Depends on the job"], next: [3, 1, 2] }
+        ];
+
+        const careers = [
+            { title: "Software Developer", field: "Technology", match: 0, salary: "₹5-25 LPA", scope: "High demand globally" },
+            { title: "Data Scientist", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "High demand globally" },
+            { title: "Machine Learning Engineer", field: "Technology", match: 0, salary: "₹6-30 LPA", scope: "High demand globally" },
+            { title: "Cybersecurity Specialist", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "High demand globally" },
+            { title: "Digital Marketing Manager", field: "Marketing", match: 0, salary: "₹5-15 LPA", scope: "Growing demand in e-commerce" },
+            { title: "Project Manager", field: "Management", match: 0, salary: "₹10-20 LPA", scope: "Wide range of industries" },
+            { title: "Graphic Designer", field: "Design", match: 0, salary: "₹3-8 LPA", scope: "Creative and ever-evolving" },
+            { title: "HR Manager", field: "Human Resources", match: 0, salary: "₹7-15 LPA", scope: "Always in demand" },
+            { title: "Financial Analyst", field: "Finance", match: 0, salary: "₹6-15 LPA", scope: "High demand in corporate" },
+            { title: "Marketing Research Analyst", field: "Marketing", match: 0, salary: "₹4-12 LPA", scope: "Growing demand in tech and media" },
+            { title: "SEO Specialist", field: "Marketing", match: 0, salary: "₹3-8 LPA", scope: "Evolving market demand" },
+            { title: "Copywriter", field: "Writing", match: 0, salary: "₹3-7 LPA", scope: "Demand across industries" },
+            { title: "UX/UI Designer", field: "Design", match: 0, salary: "₹6-15 LPA", scope: "In demand in tech industry" },
+            { title: "Video Producer", field: "Media", match: 0, salary: "₹5-12 LPA", scope: "High in digital media" },
+            { title: "Business Analyst", field: "Business", match: 0, salary: "₹8-20 LPA", scope: "Wide demand in various sectors" },
+            { title: "Content Strategist", field: "Content", match: 0, salary: "₹5-10 LPA", scope: "Demand in media & agencies" },
+            { title: "Product Manager", field: "Technology", match: 0, salary: "₹12-30 LPA", scope: "Growing demand in product-based companies" },
+            { title: "Software Tester", field: "Technology", match: 0, salary: "₹3-8 LPA", scope: "Ever-growing in tech companies" },
+            { title: "Network Engineer", field: "Technology", match: 0, salary: "₹4-12 LPA", scope: "Expanding demand" },
+            { title: "Content Writer", field: "Writing", match: 0, salary: "₹2-5 LPA", scope: "Expanding in e-commerce and digital media" },
+            { title: "Event Planner", field: "Management", match: 0, salary: "₹4-10 LPA", scope: "Expanding globally" },
+            { title: "Public Relations Specialist", field: "Communication", match: 0, salary: "₹5-12 LPA", scope: "Wide demand across industries" },
+            { title: "Advertising Manager", field: "Marketing", match: 0, salary: "₹6-20 LPA", scope: "Growing demand in advertising agencies" },
+            { title: "Mobile App Developer", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "Strong demand globally" },
+            { title: "E-commerce Manager", field: "Marketing", match: 0, salary: "₹6-15 LPA", scope: "High demand in retail" },
+            { title: "Blockchain Developer", field: "Technology", match: 0, salary: "₹10-25 LPA", scope: "High demand in the crypto space" },
+            { title: "AI Researcher", field: "Technology", match: 0, salary: "₹15-30 LPA", scope: "High demand in AI sectors" },
+            { title: "Sales Manager", field: "Sales", match: 0, salary: "₹6-18 LPA", scope: "Always in demand" },
+            { title: "Consultant", field: "Business", match: 0, salary: "₹8-25 LPA", scope: "Growing demand in business strategy" },
+            { title: "Social Media Manager", field: "Marketing", match: 0, salary: "₹5-12 LPA", scope: "Expanding in digital media" },
+            { title: "Legal Advisor", field: "Law", match: 0, salary: "₹10-25 LPA", scope: "Always in demand" },
+            { title: "Pharmacist", field: "Healthcare", match: 0, salary: "₹6-12 LPA", scope: "Consistent demand globally" },
+            { title: "Nurse", field: "Healthcare", match: 0, salary: "₹5-10 LPA", scope: "Always in demand" },
+            { title: "Doctor", field: "Healthcare", match: 0, salary: "₹12-30 LPA", scope: "High global demand" },
+            { title: "Architect", field: "Design", match: 0, salary: "₹8-20 LPA", scope: "Wide scope globally" },
+            { title: "Interior Designer", field: "Design", match: 0, salary: "₹4-10 LPA", scope: "Growing demand in real estate" },
+            { title: "Construction Manager", field: "Management", match: 0, salary: "₹10-20 LPA", scope: "Consistent demand in construction industry" }
+            // Continue adding more job titles (up to 100)
+        ];
+
+    </script>
+</body>
+</html>
