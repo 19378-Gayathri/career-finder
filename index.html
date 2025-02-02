@@ -1,286 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course & Career Finder</title>
-    <style>
-        /* Classic Design Layout */
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --background: #ecf0f1;
-            --text: #34495e;
-            --highlight: #f7f8f8;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2025 Course Finder</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+    header, section, footer {
+      padding: 20px;
+      text-align: center;
+    }
 
-        body {
-            background-color: var(--background);
-            color: var(--text);
-            line-height: 1.6;
-            font-size: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+    header {
+      background: #4CAF50;
+      color: white;
+    }
 
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            text-align: center;
-        }
+    h1, h2 {
+      font-weight: bold;
+    }
 
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            border-radius: 12px 12px 0 0;
-            margin-bottom: 30px;
-        }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+    button:hover {
+      background: #45a049;
+    }
 
-        header p {
-            font-size: 1.2rem;
-        }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
 
-        .section {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.5s ease forwards;
-            margin-bottom: 20px;
-        }
+    .quiz-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .slider-container {
+      width: 100%;
+      margin: 20px 0;
+    }
 
-        .section.hidden {
-            display: none;
-        }
+    .result-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        .button {
-            background-color: var(--secondary);
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease;
-        }
+    footer {
+      background: #333;
+      color: white;
+      padding: 10px 0;
+    }
 
-        .button:hover {
-            background-color: #2980b9;
-        }
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+    }
 
-        .progress-bar {
-            background-color: #ddd;
-            height: 8px;
-            border-radius: 5px;
-            margin-top: 20px;
-            width: 100%;
-        }
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
 
-        .progress-bar .progress {
-            height: 100%;
-            background-color: var(--secondary);
-            width: 0%;
-            border-radius: 5px;
-        }
-
-        .question-container {
-            margin-bottom: 20px;
-        }
-
-        .options {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: 1fr 1fr;
-            justify-items: center;
-            margin-top: 20px;
-        }
-
-        .option {
-            background-color: #f7f7f7;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            max-width: 300px;
-        }
-
-        .option:hover {
-            background-color: var(--highlight);
-            transform: scale(1.05);
-        }
-
-        .option.selected {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .slider-container {
-            margin-top: 20px;
-        }
-
-        .slider {
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        footer {
-            background-color: #f1f1f1;
-            padding: 15px;
-            width: 100%;
-            text-align: center;
-            margin-top: 40px;
-            border-radius: 0 0 12px 12px;
-        }
-
-        footer p {
-            font-size: 1rem;
-            color: #7f8c8d;
-        }
-
-        footer a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Image Styling */
-        .image {
-            max-width: 100%;
-            border-radius: 12px;
-        }
-
-    </style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Header -->
+  <header>
+    <h1>2025 Course Finder</h1>
+    <p>Discover Courses & Careers Based on Your Personality Traits</p>
+  </header>
 
-    <div class="container">
-        <!-- Header Section -->
-        <header>
-            <h1>Course & Career Finder</h1>
-            <p>Find your ideal career based on your preferences and skills</p>
-        </header>
+  <!-- Homepage -->
+  <section id="home" class="container fade-in">
+    <h2>Find Your Perfect Career Path</h2>
+    <p>Answer a few questions to get personalized course and job recommendations.</p>
+    <button onclick="startQuiz()">Start Quiz</button>
+  </section>
 
-        <!-- Intro Section -->
-        <div class="section" id="intro">
-            <img src="https://via.placeholder.com/600x300/3498db/ffffff?text=Career+Quiz" alt="Intro Image" class="image">
-            <h2>Welcome to Your Career Journey</h2>
-            <p>Take our quiz to discover your strengths and get personalized recommendations for courses and careers.</p>
-            <button class="button" onclick="startQuiz()">Start Quiz</button>
+  <!-- Quiz Section -->
+  <section id="quiz" class="container quiz-container" style="display: none;">
+    <h2>Personality Quiz</h2>
+    <div id="question-container"></div>
+    <button id="next-btn" onclick="nextQuestion()" style="display: none;">Next</button>
+    <button id="submit-btn" onclick="submitQuiz()" style="display: none;">Submit</button>
+  </section>
+
+  <!-- Results Section -->
+  <section id="results" class="container" style="display: none;">
+    <h2>Your Recommendations</h2>
+    <div id="result-cards"></div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="container">
+    <h2>About Us</h2>
+    <p>This platform helps users discover courses and careers aligned with their personality traits.</p>
+    <p>Contact us at: <a href="mailto:www.coursefinder123@gmail.com">www.coursefinder123@gmail.com</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Course Finder. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Quiz Data (15 Questions)
+    const questions = [
+      { text: "How creative are you?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Do you enjoy problem-solving?", type: "multiple-choice", options: ["Not at all", "Sometimes", "Often", "Always"] },
+      { text: "Are you interested in managing teams?", type: "multiple-choice", options: ["No", "Maybe", "Yes"] },
+      { text: "How important is financial stability to you?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Do you enjoy working with data and numbers?", type: "multiple-choice", options: ["No", "Somewhat", "Yes"] },
+      { text: "How comfortable are you with public speaking?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Do you prefer working independently or in a team?", type: "multiple-choice", options: ["Independently", "Both", "In a team"] },
+      { text: "How passionate are you about technology?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Are you interested in artistic activities like painting or music?", type: "multiple-choice", options: ["No", "Maybe", "Yes"] },
+      { text: "How much do you value innovation in your work?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Do you enjoy teaching or mentoring others?", type: "multiple-choice", options: ["No", "Sometimes", "Yes"] },
+      { text: "How skilled are you at critical thinking?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Are you interested in entrepreneurship?", type: "multiple-choice", options: ["No", "Maybe", "Yes"] },
+      { text: "How comfortable are you with taking risks?", type: "slider", min: 0, max: 10, step: 1 },
+      { text: "Do you enjoy writing or storytelling?", type: "multiple-choice", options: ["No", "Sometimes", "Yes"] }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userResponses = [];
+
+    // Start Quiz
+    function startQuiz() {
+      document.getElementById("home").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      loadQuestion();
+    }
+
+    // Load Question
+    function loadQuestion() {
+      const questionContainer = document.getElementById("question-container");
+      const question = questions[currentQuestionIndex];
+
+      questionContainer.innerHTML = `
+        <h3>${question.text}</h3>
+        ${question.type === "slider" ? `
+          <div class="slider-container">
+            <input type="range" id="slider" min="${question.min}" max="${question.max}" step="${question.step}" value="5">
+            <p>Value: <span id="slider-value">5</span></p>
+          </div>
+        ` : ""}
+        ${question.type === "multiple-choice" ? `
+          <div>
+            ${question.options.map((option, index) => `
+              <label>
+                <input type="radio" name="option" value="${index}">
+                ${option}
+              </label><br>
+            `).join("")}
+          </div>
+        ` : ""}
+      `;
+
+      if (question.type === "slider") {
+        const slider = document.getElementById("slider");
+        const sliderValue = document.getElementById("slider-value");
+        slider.oninput = () => {
+          sliderValue.textContent = slider.value;
+        };
+      }
+
+      document.getElementById("next-btn").style.display = "inline-block";
+    }
+
+    // Next Question
+    function nextQuestion() {
+      const question = questions[currentQuestionIndex];
+      let response;
+
+      if (question.type === "slider") {
+        response = document.getElementById("slider").value;
+      } else if (question.type === "multiple-choice") {
+        const selectedOption = document.querySelector('input[name="option"]:checked');
+        if (!selectedOption) {
+          alert("Please select an option.");
+          return;
+        }
+        response = selectedOption.value;
+      }
+
+      userResponses.push(response);
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("submit-btn").style.display = "inline-block";
+      }
+    }
+
+    // Submit Quiz
+    function submitQuiz() {
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("results").style.display = "block";
+
+      const resultCards = document.getElementById("result-cards");
+
+      // Example Job Recommendations Based on Responses
+      const recommendations = [
+        {
+          title: "Software Developer",
+          description: "Perfect for those who love technology and problem-solving.",
+          salary: "$80,000 - $120,000/year",
+          match: "85%"
+        },
+        {
+          title: "Graphic Designer",
+          description: "Ideal for creative individuals with artistic skills.",
+          salary: "$50,000 - $90,000/year",
+          match: "75%"
+        },
+        {
+          title: "Entrepreneur",
+          description: "Great for risk-takers and innovators.",
+          salary: "Varies",
+          match: "80%"
+        }
+      ];
+
+      resultCards.innerHTML = recommendations.map(job => `
+        <div class="result-card">
+          <h3>${job.title}</h3>
+          <p>${job.description}</p>
+          <p><strong>Salary:</strong> ${job.salary}</p>
+          <p><strong>Match:</strong> ${job.match}</p>
         </div>
-
-        <!-- Quiz Section -->
-        <div class="section hidden" id="quiz">
-            <h2>Answer the Following Questions</h2>
-            <div class="progress-bar">
-                <div class="progress" id="progress-bar"></div>
-            </div>
-            <div class="question-container" id="question-container"></div>
-            <button class="button" onclick="nextQuestion()" id="next-btn">Next</button>
-        </div>
-
-        <!-- Results Section -->
-        <div class="section hidden" id="results">
-            <h2>Your Career Matches</h2>
-            <div id="results-container"></div>
-        </div>
-
-        <!-- About Section -->
-        <div class="section hidden" id="about">
-            <h2>About Us</h2>
-            <p>We help individuals find their perfect career path by analyzing personality traits and skills. Our recommendations are based on research and industry insights.</p>
-            <p>Contact us: <a href="mailto:coursefinder123@gmail.com">coursefinder123@gmail.com</a></p>
-        </div>
-
-        <footer>
-            <p>© 2025 Course & Career Finder. All rights reserved.</p>
-        </footer>
-    </div>
-
-    <script>
-        const questions = [
-            { text: "How do you prefer to express your creativity?", type: "multiple", options: ["Through art and visual media", "Through scientific innovation", "Through social interaction", "Through business ventures", "Through practical problem-solving"], next: [1, 2, 3, 4, 5] },
-            { text: "Which environment do you work best in?", type: "multiple", options: ["Structured and organized", "Dynamic and changing", "Collaborative and team-based", "Independent and autonomous", "Creative and flexible"], next: [2, 1, 3, 4, 5] },
-            { text: "How comfortable are you with public speaking?", type: "slider", min: 1, max: 10, next: [4, 3, 5, 2, 1] },
-            { text: "Rate your problem-solving ability", type: "slider", min: 1, max: 10, next: [2, 3, 4, 1, 5] },
-            { text: "Do you prefer to work with data or people?", type: "multiple", options: ["Data", "People", "Both", "Neither"], next: [5, 4, 2, 3] },
-            { text: "Are you interested in working with technology?", type: "multiple", options: ["Yes", "No", "Not Sure"], next: [1, 2, 3] },
-            { text: "Do you like taking leadership roles?", type: "multiple", options: ["Yes", "No", "Sometimes"], next: [1, 3, 2] },
-            { text: "Would you prefer to work in a corporate setting or a startup?", type: "multiple", options: ["Corporate", "Startup", "Either"], next: [1, 2, 3] },
-            { text: "How do you feel about working remotely?", type: "multiple", options: ["I prefer remote work", "I prefer office work", "I am flexible"], next: [2, 1, 3] },
-            { text: "Would you enjoy a job that involves a lot of travel?", type: "multiple", options: ["Yes", "No", "Depends on the job"], next: [3, 1, 2] }
-        ];
-
-        const careers = [
-            { title: "Software Developer", field: "Technology", match: 0, salary: "₹5-25 LPA", scope: "High demand globally" },
-            { title: "Data Scientist", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "High demand globally" },
-            { title: "Machine Learning Engineer", field: "Technology", match: 0, salary: "₹6-30 LPA", scope: "High demand globally" },
-            { title: "Cybersecurity Specialist", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "High demand globally" },
-            { title: "Digital Marketing Manager", field: "Marketing", match: 0, salary: "₹5-15 LPA", scope: "Growing demand in e-commerce" },
-            { title: "Project Manager", field: "Management", match: 0, salary: "₹10-20 LPA", scope: "Wide range of industries" },
-            { title: "Graphic Designer", field: "Design", match: 0, salary: "₹3-8 LPA", scope: "Creative and ever-evolving" },
-            { title: "HR Manager", field: "Human Resources", match: 0, salary: "₹7-15 LPA", scope: "Always in demand" },
-            { title: "Financial Analyst", field: "Finance", match: 0, salary: "₹6-15 LPA", scope: "High demand in corporate" },
-            { title: "Marketing Research Analyst", field: "Marketing", match: 0, salary: "₹4-12 LPA", scope: "Growing demand in tech and media" },
-            { title: "SEO Specialist", field: "Marketing", match: 0, salary: "₹3-8 LPA", scope: "Evolving market demand" },
-            { title: "Copywriter", field: "Writing", match: 0, salary: "₹3-7 LPA", scope: "Demand across industries" },
-            { title: "UX/UI Designer", field: "Design", match: 0, salary: "₹6-15 LPA", scope: "In demand in tech industry" },
-            { title: "Video Producer", field: "Media", match: 0, salary: "₹5-12 LPA", scope: "High in digital media" },
-            { title: "Business Analyst", field: "Business", match: 0, salary: "₹8-20 LPA", scope: "Wide demand in various sectors" },
-            { title: "Content Strategist", field: "Content", match: 0, salary: "₹5-10 LPA", scope: "Demand in media & agencies" },
-            { title: "Product Manager", field: "Technology", match: 0, salary: "₹12-30 LPA", scope: "Growing demand in product-based companies" },
-            { title: "Software Tester", field: "Technology", match: 0, salary: "₹3-8 LPA", scope: "Ever-growing in tech companies" },
-            { title: "Network Engineer", field: "Technology", match: 0, salary: "₹4-12 LPA", scope: "Expanding demand" },
-            { title: "Content Writer", field: "Writing", match: 0, salary: "₹2-5 LPA", scope: "Expanding in e-commerce and digital media" },
-            { title: "Event Planner", field: "Management", match: 0, salary: "₹4-10 LPA", scope: "Expanding globally" },
-            { title: "Public Relations Specialist", field: "Communication", match: 0, salary: "₹5-12 LPA", scope: "Wide demand across industries" },
-            { title: "Advertising Manager", field: "Marketing", match: 0, salary: "₹6-20 LPA", scope: "Growing demand in advertising agencies" },
-            { title: "Mobile App Developer", field: "Technology", match: 0, salary: "₹8-20 LPA", scope: "Strong demand globally" },
-            { title: "E-commerce Manager", field: "Marketing", match: 0, salary: "₹6-15 LPA", scope: "High demand in retail" },
-            { title: "Blockchain Developer", field: "Technology", match: 0, salary: "₹10-25 LPA", scope: "High demand in the crypto space" },
-            { title: "AI Researcher", field: "Technology", match: 0, salary: "₹15-30 LPA", scope: "High demand in AI sectors" },
-            { title: "Sales Manager", field: "Sales", match: 0, salary: "₹6-18 LPA", scope: "Always in demand" },
-            { title: "Consultant", field: "Business", match: 0, salary: "₹8-25 LPA", scope: "Growing demand in business strategy" },
-            { title: "Social Media Manager", field: "Marketing", match: 0, salary: "₹5-12 LPA", scope: "Expanding in digital media" },
-            { title: "Legal Advisor", field: "Law", match: 0, salary: "₹10-25 LPA", scope: "Always in demand" },
-            { title: "Pharmacist", field: "Healthcare", match: 0, salary: "₹6-12 LPA", scope: "Consistent demand globally" },
-            { title: "Nurse", field: "Healthcare", match: 0, salary: "₹5-10 LPA", scope: "Always in demand" },
-            { title: "Doctor", field: "Healthcare", match: 0, salary: "₹12-30 LPA", scope: "High global demand" },
-            { title: "Architect", field: "Design", match: 0, salary: "₹8-20 LPA", scope: "Wide scope globally" },
-            { title: "Interior Designer", field: "Design", match: 0, salary: "₹4-10 LPA", scope: "Growing demand in real estate" },
-            { title: "Construction Manager", field: "Management", match: 0, salary: "₹10-20 LPA", scope: "Consistent demand in construction industry" }
-            // Continue adding more job titles (up to 100)
-        ];
-
-    </script>
+      `).join("");
+    }
+  </script>
 </body>
 </html>
